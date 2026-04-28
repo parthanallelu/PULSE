@@ -101,6 +101,7 @@ function showToast(type, message) {
 // ─────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
+  initAuth();
   initTabs();
   initTypeSelector();
   initCharCounter();
@@ -116,6 +117,41 @@ document.addEventListener('DOMContentLoaded', () => {
   // Refresh relative timestamps every 30s
   setInterval(() => renderReportList(), 30000);
 });
+
+// ─────────────────────────────────────────────────────────────────
+// AUTHENTICATION
+// ─────────────────────────────────────────────────────────────────
+
+function initAuth() {
+  const loginTab = document.getElementById('auth-tab-login');
+  const regTab = document.getElementById('auth-tab-register');
+  const loginForm = document.getElementById('login-form');
+  const regForm = document.getElementById('register-form');
+
+  loginTab.addEventListener('click', () => {
+    loginTab.classList.add('active');
+    regTab.classList.remove('active');
+    loginForm.classList.add('active-form');
+    regForm.classList.remove('active-form');
+  });
+
+  regTab.addEventListener('click', () => {
+    regTab.classList.add('active');
+    loginTab.classList.remove('active');
+    regForm.classList.add('active-form');
+    loginForm.classList.remove('active-form');
+  });
+
+  const handleAuth = (e) => {
+    e.preventDefault();
+    document.getElementById('auth-shell').style.display = 'none';
+    document.getElementById('app-shell').style.display = 'flex';
+    showToast('success', 'Authentication successful');
+  };
+
+  loginForm.addEventListener('submit', handleAuth);
+  regForm.addEventListener('submit', handleAuth);
+}
 
 // ─────────────────────────────────────────────────────────────────
 // TAB NAVIGATION
@@ -324,10 +360,7 @@ function initFormSubmit() {
       return;
     }
 
-    if (!capturedImage) {
-      showToast('warning', 'Please capture or attach photo evidence.');
-      return;
-    }
+    const allowRelay = document.getElementById('allow-peer-relay').checked;
 
     // Build structured JSON report (Section 2)
     const report = {
@@ -336,6 +369,7 @@ function initFormSubmit() {
       description: description,
       location: location,
       image: capturedImage || null,
+      allowRelay: allowRelay,
       timestamp: new Date().toISOString(),
       status: 'OFFLINE_CAPTURED',       // Initial state is always offline
       statusHistory: [
@@ -356,6 +390,7 @@ function initFormSubmit() {
     document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('selected'));
     selectedType = '';
     document.getElementById('incident-type').value = '';
+    document.getElementById('allow-peer-relay').checked = true;
     capturedImage = null;
     document.getElementById('image-preview').style.display = 'none';
     document.getElementById('upload-zone').style.display = 'flex';
@@ -555,7 +590,7 @@ function initRelaySimulation() {
 
   btn.addEventListener('click', async () => {
     const reports = loadReports();
-    const offlineReports = reports.filter(r => r.status === 'OFFLINE_CAPTURED');
+    const offlineReports = reports.filter(r => r.status === 'OFFLINE_CAPTURED' && r.allowRelay !== false);
 
     if (offlineReports.length === 0) return;
 
@@ -613,15 +648,16 @@ function updateRelayButtonState() {
   if (!btn) return;
 
   const reports = loadReports();
-  const hasOffline = reports.some(r => r.status === 'OFFLINE_CAPTURED');
-  btn.disabled = !hasOffline;
+  const relayableReports = reports.filter(r => r.status === 'OFFLINE_CAPTURED' && r.allowRelay !== false);
+  const hasRelayable = relayableReports.length > 0;
+  btn.disabled = !hasRelayable;
 
   const consoleEl = document.getElementById('relay-console');
   if (consoleEl && !btn.classList.contains('running')) {
-    if (hasOffline) {
+    if (hasRelayable) {
       consoleEl.innerHTML = `
         <div class="relay-line relay-info">
-          <span class="relay-prompt">$</span> ${reports.filter(r => r.status === 'OFFLINE_CAPTURED').length} offline report(s) ready for peer relay.
+          <span class="relay-prompt">$</span> ${relayableReports.length} offline report(s) ready for peer relay.
         </div>
       `;
     } else {

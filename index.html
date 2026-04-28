@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>PULSE — Crisis Intelligence</title>
   <meta name="description" content="PULSE Community Crisis Intelligence Network — Report, relay, and respond to emergencies even without connectivity." />
-  <meta name="theme-color" content="#0a0c14" />
+  <meta name="theme-color" content="#ffffff" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -24,9 +24,59 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- AUTH SHELL                                              -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="auth-shell" id="auth-shell">
+    <div class="auth-card">
+      <div class="brand-mark auth-brand">
+        <span class="material-icons-round">sensors</span>
+      </div>
+      <h1 class="brand-name">PULSE</h1>
+      <p class="brand-tagline">Crisis Intelligence Network</p>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="auth-tab-login">Login</button>
+        <button class="auth-tab" id="auth-tab-register">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="auth-form active-form" autocomplete="off">
+        <div class="form-field">
+          <label class="field-label" for="login-username">Username</label>
+          <input type="text" id="login-username" class="field-input" value="admin" required />
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="login-password">Password</label>
+          <input type="password" id="login-password" class="field-input" value="password" required />
+        </div>
+        <button type="submit" class="btn-submit auth-submit">
+          <span>Login</span>
+          <span class="material-icons-round">login</span>
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="register-form" class="auth-form" autocomplete="off">
+        <div class="form-field">
+          <label class="field-label" for="reg-username">Username</label>
+          <input type="text" id="reg-username" class="field-input" placeholder="e.g. user123" required />
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="reg-password">Password</label>
+          <input type="password" id="reg-password" class="field-input" placeholder="Create password" required />
+        </div>
+        <button type="submit" class="btn-submit auth-submit">
+          <span>Register</span>
+          <span class="material-icons-round">person_add</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- APP SHELL                                               -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <div class="app-shell">
+  <div class="app-shell" id="app-shell" style="display: none;">
 
     <!-- ─── APP HEADER ─── -->
     <header class="app-header">
@@ -132,7 +182,7 @@
 
           <!-- Image Upload -->
           <div class="form-field">
-            <label class="field-label">Photo Evidence <span class="required-tag">*Required</span></label>
+            <label class="field-label">Photo Evidence <span class="optional-tag">(Optional)</span></label>
             <div class="upload-zone" id="upload-zone">
               <input type="file" id="file-input" accept="image/*" capture="environment" hidden />
               <span class="material-icons-round upload-icon">add_a_photo</span>
@@ -143,6 +193,17 @@
               <button type="button" class="preview-remove" id="preview-remove">
                 <span class="material-icons-round">close</span>
               </button>
+            </div>
+          </div>
+          <!-- Peer Relay Option -->
+          <div class="form-field toggle-field">
+            <label class="toggle-container">
+              <input type="checkbox" id="allow-peer-relay" checked />
+              <span class="toggle-slider"></span>
+            </label>
+            <div class="toggle-text">
+              <span class="toggle-label">Enable Peer-to-Peer Relay</span>
+              <span class="toggle-desc">Allow this report to be securely propagated via nearby devices using mesh networking when offline.</span>
             </div>
           </div>
 

@@ -9,18 +9,18 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Surfaces */
-  --bg-root:      #0a0c14;
-  --bg-surface:   #111320;
-  --bg-elevated:  #181b2a;
-  --bg-hover:     #1f2337;
-  --bg-input:     #141625;
+  --bg-root:      #ffffff;
+  --bg-surface:   #f8fafc;
+  --bg-elevated:  #ffffff;
+  --bg-hover:     #f1f5f9;
+  --bg-input:     #ffffff;
 
   /* Primary Palette */
-  --blue:         #4361ee;
-  --blue-glow:    rgba(67, 97, 238, .25);
+  --blue:         #2563eb;
+  --blue-glow:    rgba(37, 99, 235, 0.15);
   --purple:       #7c3aed;
-  --cyan:         #22d3ee;
-  --cyan-glow:    rgba(34, 211, 238, .20);
+  --cyan:         #0ea5e9;
+  --cyan-glow:    rgba(14, 165, 233, 0.15);
 
   /* Semantic */
   --green:        #10b981;
@@ -33,13 +33,13 @@
   --grey-bg:      rgba(107, 114, 128, .12);
 
   /* Text */
-  --text-1:       #f1f5f9;
-  --text-2:       #94a3b8;
-  --text-3:       #4b5563;
+  --text-1:       #0f172a;
+  --text-2:       #334155;
+  --text-3:       #64748b;
 
   /* Borders */
-  --border:       rgba(255, 255, 255, .06);
-  --border-focus: rgba(67, 97, 238, .5);
+  --border:       #e2e8f0;
+  --border-focus: rgba(37, 99, 235, .5);
 
   /* Radii */
   --r-sm: 8px;
@@ -75,6 +75,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 button, input, textarea, select {
@@ -103,7 +107,8 @@ button, input, textarea, select {
   font-weight: 600;
   color: #fbbf24;
   letter-spacing: .02em;
-  position: relative;
+  position: absolute;
+  top: 0; left: 0; right: 0;
   z-index: 100;
 }
 
@@ -123,15 +128,108 @@ button, input, textarea, select {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   APP SHELL
+   APP & AUTH SHELL
    ═══════════════════════════════════════════════════════════════════ */
-.app-shell {
+.app-shell, .auth-shell {
+  width: 100%;
   max-width: 520px;
-  margin: 0 auto;
-  height: calc(100dvh - 42px); /* minus crisis banner */
+  height: 100dvh;
   display: flex;
   flex-direction: column;
+  background: var(--bg-root);
+  position: relative;
 }
+
+@media (min-width: 540px) {
+  .app-shell, .auth-shell {
+    height: 850px;
+    max-height: 90vh;
+    border-radius: var(--r-xl);
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .app-shell {
+    margin-top: 40px; /* space for absolute crisis banner */
+  }
+}
+
+/* ── Auth Shell specifics ──────────────────────────────────────── */
+.auth-shell {
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--shadow-card);
+}
+
+.auth-brand {
+  width: 56px; height: 56px;
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+}
+
+.auth-card .brand-name { font-size: 1.6rem; }
+.auth-card .brand-tagline { margin-bottom: 30px; }
+
+.auth-tabs {
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.auth-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  font-weight: 600;
+  color: var(--text-3);
+  cursor: pointer;
+  position: relative;
+}
+
+.auth-tab.active {
+  color: var(--blue);
+}
+
+.auth-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 2px;
+  background: var(--blue);
+}
+
+.auth-form {
+  display: none;
+  width: 100%;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-form.active-form {
+  display: flex;
+  animation: card-enter .3s var(--ease) backwards;
+}
+
+.auth-submit {
+  margin-top: 10px;
+  width: 100%;
+}
+
 
 /* ── Header ────────────────────────────────────────────────────── */
 .app-header {
@@ -166,7 +264,8 @@ button, input, textarea, select {
   font-weight: 800;
   letter-spacing: .06em;
   line-height: 1;
-  background: linear-gradient(90deg, #fff 20%, var(--cyan) 100%);
+  background: linear-gradient(90deg, var(--blue) 20%, var(--cyan) 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -505,6 +604,79 @@ button, input, textarea, select {
 }
 
 .preview-remove:hover { background: var(--red); }
+
+/* ── Toggle Switch ─────────────────────────────────────────────── */
+.toggle-field {
+  flex-direction: row;
+  align-items: center;
+  background: var(--bg-hover);
+  padding: 14px 16px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  gap: 14px;
+}
+
+.toggle-container {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-container input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--grey-bg);
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .toggle-slider {
+  background-color: var(--blue);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
+.toggle-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle-label {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.toggle-desc {
+  font-size: .7rem;
+  color: var(--text-3);
+  margin-top: 2px;
+  line-height: 1.4;
+}
 
 /* ── Submit Button ─────────────────────────────────────────────── */
 .btn-submit {
@@ -1053,30 +1225,33 @@ button, input, textarea, select {
    EMERGENCY OPERATIONS DASHBOARD (Section 7)
    ═══════════════════════════════════════════════════════════════════ */
 .insight-banner {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 24px;
 }
 
 .insight-stat-card {
+  flex: 1 1 130px;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--r-md);
-  padding: 12px 14px;
+  padding: 12px 10px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   box-shadow: var(--shadow-card);
+  min-width: 0; /* allows text truncation if needed */
 }
 
 .stat-icon {
-  width: 42px; height: 42px;
+  width: 38px; height: 38px;
   border-radius: var(--r-md);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .stat-icon .material-icons-round {
@@ -1101,14 +1276,18 @@ button, input, textarea, select {
 .stat-meta {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .stat-label {
-  font-size: .68rem;
+  font-size: .65rem;
   font-weight: 600;
   color: var(--text-3);
   text-transform: uppercase;
   letter-spacing: .04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .stat-value {
