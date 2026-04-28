@@ -8,55 +8,55 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Surfaces */
-  --bg-root:      #ffffff;
-  --bg-surface:   #f8fafc;
-  --bg-elevated:  #ffffff;
-  --bg-hover:     #f1f5f9;
-  --bg-input:     #ffffff;
+  /* Premium High-Tech Dark Mode Surfaces */
+  --bg-root:      #0b0f19;
+  --bg-surface:   #111827;
+  --bg-elevated:  #1f2937;
+  --bg-hover:     #2d3748;
+  --bg-input:     #1a202c;
 
   /* Primary Palette */
-  --blue:         #2563eb;
-  --blue-glow:    rgba(37, 99, 235, 0.15);
-  --purple:       #7c3aed;
-  --cyan:         #0ea5e9;
-  --cyan-glow:    rgba(14, 165, 233, 0.15);
+  --blue:         #3b82f6;
+  --blue-glow:    rgba(59, 130, 246, 0.25);
+  --purple:       #8b5cf6;
+  --cyan:         #06b6d4;
+  --cyan-glow:    rgba(6, 182, 212, 0.25);
 
   /* Semantic */
   --green:        #10b981;
-  --green-bg:     rgba(16, 185, 129, .12);
+  --green-bg:     rgba(16, 185, 129, .15);
   --orange:       #f59e0b;
-  --orange-bg:    rgba(245, 158, 11, .12);
+  --orange-bg:    rgba(245, 158, 11, .15);
   --red:          #ef4444;
-  --red-bg:       rgba(239, 68, 68, .10);
-  --grey:         #6b7280;
-  --grey-bg:      rgba(107, 114, 128, .12);
+  --red-bg:       rgba(239, 68, 68, .20);
+  --grey:         #9ca3af;
+  --grey-bg:      rgba(156, 163, 175, .15);
 
   /* Text */
-  --text-1:       #0f172a;
-  --text-2:       #334155;
-  --text-3:       #64748b;
+  --text-1:       #f9fafb;
+  --text-2:       #e5e7eb;
+  --text-3:       #9ca3af;
 
   /* Borders */
-  --border:       #e2e8f0;
-  --border-focus: rgba(37, 99, 235, .5);
+  --border:       #374151;
+  --border-focus: rgba(59, 130, 246, .6);
 
   /* Radii */
-  --r-sm: 8px;
-  --r-md: 12px;
-  --r-lg: 16px;
-  --r-xl: 24px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
   --r-full: 9999px;
 
   /* Shadows */
-  --shadow-card:  0 2px 12px rgba(0,0,0,.25);
-  --shadow-glow:  0 0 30px var(--blue-glow);
+  --shadow-card:  0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-glow:  0 0 40px var(--blue-glow);
 
   /* Transitions */
-  --ease: cubic-bezier(.4,0,.2,1);
-  --t-fast: .18s var(--ease);
-  --t-med:  .3s  var(--ease);
-  --t-slow: .5s  var(--ease);
+  --ease: cubic-bezier(.4, 0, .2, 1);
+  --t-fast: .15s var(--ease);
+  --t-med:  .25s var(--ease);
+  --t-slow: .4s  var(--ease);
 }
 
 /* ── Reset ─────────────────────────────────────────────────────── */
